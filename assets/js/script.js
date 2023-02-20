@@ -4,6 +4,7 @@
 $(function () {
   var timeBlock = $(".time-block");
   var saveButton = $(".saveBtn");
+  var storedTasks = JSON.parse(localStorage.getItem("savedTasks"));
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -13,7 +14,7 @@ $(function () {
   // useful when saving the description in local storage?
   saveButton.on("click", function () {
     var taskInput = $(this).siblings(".description").val();
-    const hour = $(this).parent().attr("id");
+    var hour = $(this).parent().attr("id");
     console.log(hour);
     console.log(taskInput);
     var newTask = {
@@ -58,6 +59,16 @@ $(function () {
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
+  timeBlock.each(function () {
+    var id = parseInt($(this).attr("id"));
+    if (storedTasks) {
+      for (let i = 0; i < storedTasks.length; i++) {
+        if (id == storedTasks[i].hour) {
+          $(this).children(".description").text(storedTasks[i].taskInput);
+        }
+      }
+    }
+  });
 
   // TODO: Add code to display the current date in the header of the page.
   function displayDay() {
